@@ -1,5 +1,5 @@
 export default class DesecAPI {
-    fetchFn: FetchType;
+    protected fetchFn: FetchType;
     authToken?: string;
     constructor(opts?: {
         authToken?: string;
@@ -46,8 +46,21 @@ export default class DesecAPI {
         name: string;
         useDefaultRoot?: boolean;
     }): Promise<void>;
+    protected getDefaultFetchOpts(opts: {
+        method: HttpMethod;
+        headers?: {
+            [key: string]: string;
+        };
+        authToken?: string;
+        contentType?: ValidContentType;
+        body?: string;
+    }): RequestInit;
+    protected checkBadResponse(response: Response): Promise<ApiError | false>;
+    protected getFullDomainName(name: string, useDefaultRoot?: boolean): string;
 }
 export { DesecAPI };
+declare type HttpMethod = 'POST' | 'GET' | 'DELETE' | 'PUT' | 'PATCH';
+declare type ValidContentType = 'application/json';
 export declare type RequestInit = {
     body?: string | any;
     headers?: {

@@ -91,14 +91,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                     switch (_a.label) {
                         case 0:
                             url = API_ENDPOINT + "/auth/me/";
-                            fetchOpts = getDefaultFetchOpts({
+                            fetchOpts = this.getDefaultFetchOpts({
                                 method: 'GET',
                                 authToken: this.getAuthToken()
                             });
                             return [4 /*yield*/, this.fetchFn(url, fetchOpts)];
                         case 1:
                             response = _a.sent();
-                            return [4 /*yield*/, checkBadResponse(response)];
+                            return [4 /*yield*/, this.checkBadResponse(response)];
                         case 2:
                             apiError = _a.sent();
                             if (apiError) {
@@ -123,7 +123,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                                 'email': opts.email,
                                 'password': opts.password
                             };
-                            fetchOpts = getDefaultFetchOpts({
+                            fetchOpts = this.getDefaultFetchOpts({
                                 method: 'POST',
                                 contentType: 'application/json',
                                 body: JSON.stringify(data)
@@ -131,7 +131,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                             return [4 /*yield*/, this.fetchFn(url, fetchOpts)];
                         case 1:
                             response = _a.sent();
-                            return [4 /*yield*/, checkBadResponse(response)];
+                            return [4 /*yield*/, this.checkBadResponse(response)];
                         case 2:
                             apiError = _a.sent();
                             if (apiError) {
@@ -162,7 +162,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                                 'email': opts.email,
                                 'password': opts.password
                             };
-                            fetchOpts = getDefaultFetchOpts({
+                            fetchOpts = this.getDefaultFetchOpts({
                                 method: 'POST',
                                 contentType: 'application/json',
                                 body: JSON.stringify(data)
@@ -170,7 +170,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                             return [4 /*yield*/, this.fetchFn(url, fetchOpts)];
                         case 1:
                             response = _a.sent();
-                            return [4 /*yield*/, checkBadResponse(response)];
+                            return [4 /*yield*/, this.checkBadResponse(response)];
                         case 2:
                             apiError = _a.sent();
                             if (apiError) {
@@ -193,14 +193,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                     switch (_a.label) {
                         case 0:
                             url = API_ENDPOINT + "/auth/token/logout/";
-                            fetchOpts = getDefaultFetchOpts({
+                            fetchOpts = this.getDefaultFetchOpts({
                                 method: 'POST',
                                 authToken: this.getAuthToken()
                             });
                             return [4 /*yield*/, this.fetchFn(url, fetchOpts)];
                         case 1:
                             response = _a.sent();
-                            return [4 /*yield*/, checkBadResponse(response)];
+                            return [4 /*yield*/, this.checkBadResponse(response)];
                         case 2:
                             apiError = _a.sent();
                             if (apiError) {
@@ -218,12 +218,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            fullDomainName = getFullDomainName(opts.name, opts.useDefaultRoot);
+                            fullDomainName = this.getFullDomainName(opts.name, opts.useDefaultRoot);
                             url = API_ENDPOINT + "/domains/";
                             data = {
                                 'name': fullDomainName
                             };
-                            fetchOpts = getDefaultFetchOpts({
+                            fetchOpts = this.getDefaultFetchOpts({
                                 method: 'POST',
                                 authToken: this.getAuthToken(),
                                 contentType: 'application/json',
@@ -232,7 +232,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                             return [4 /*yield*/, this.fetchFn(url, fetchOpts)];
                         case 1:
                             response = _a.sent();
-                            return [4 /*yield*/, checkBadResponse(response)];
+                            return [4 /*yield*/, this.checkBadResponse(response)];
                         case 2:
                             apiError = _a.sent();
                             if (apiError) {
@@ -264,14 +264,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                     switch (_a.label) {
                         case 0:
                             url = API_ENDPOINT + "/domains/";
-                            fetchOpts = getDefaultFetchOpts({
+                            fetchOpts = this.getDefaultFetchOpts({
                                 method: 'GET',
                                 authToken: this.getAuthToken()
                             });
                             return [4 /*yield*/, this.fetchFn(url, fetchOpts)];
                         case 1:
                             response = _a.sent();
-                            return [4 /*yield*/, checkBadResponse(response)];
+                            return [4 /*yield*/, this.checkBadResponse(response)];
                         case 2:
                             apiError = _a.sent();
                             if (apiError) {
@@ -291,16 +291,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            fullDomainName = getFullDomainName(opts.name, opts.useDefaultRoot);
+                            fullDomainName = this.getFullDomainName(opts.name, opts.useDefaultRoot);
                             url = API_ENDPOINT + "/domains/" + fullDomainName + "/";
-                            fetchOpts = getDefaultFetchOpts({
+                            fetchOpts = this.getDefaultFetchOpts({
                                 method: 'GET',
                                 authToken: this.getAuthToken()
                             });
                             return [4 /*yield*/, this.fetchFn(url, fetchOpts)];
                         case 1:
                             response = _a.sent();
-                            return [4 /*yield*/, checkBadResponse(response)];
+                            return [4 /*yield*/, this.checkBadResponse(response)];
                         case 2:
                             apiError = _a.sent();
                             if (apiError) {
@@ -320,19 +320,19 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            fullDomainName = getFullDomainName(opts.name, opts.useDefaultRoot);
+                            fullDomainName = this.getFullDomainName(opts.name, opts.useDefaultRoot);
                             url = API_ENDPOINT + "/domains/" + fullDomainName + "/rrsets/";
                             if (opts.filterType !== undefined) {
                                 url += "?type=" + opts.filterType;
                             }
-                            fetchOpts = getDefaultFetchOpts({
+                            fetchOpts = this.getDefaultFetchOpts({
                                 method: 'GET',
                                 authToken: this.getAuthToken()
                             });
                             return [4 /*yield*/, this.fetchFn(url, fetchOpts)];
                         case 1:
                             response = _a.sent();
-                            return [4 /*yield*/, checkBadResponse(response)];
+                            return [4 /*yield*/, this.checkBadResponse(response)];
                         case 2:
                             apiError = _a.sent();
                             if (apiError) {
@@ -352,9 +352,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            fullDomainName = getFullDomainName(opts.name, opts.useDefaultRoot);
+                            fullDomainName = this.getFullDomainName(opts.name, opts.useDefaultRoot);
                             url = API_ENDPOINT + "/domains/" + fullDomainName + "/rrsets/";
-                            fetchOpts = getDefaultFetchOpts({
+                            fetchOpts = this.getDefaultFetchOpts({
                                 method: 'POST',
                                 authToken: this.getAuthToken(),
                                 contentType: 'application/json',
@@ -363,7 +363,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                             return [4 /*yield*/, this.fetchFn(url, fetchOpts)];
                         case 1:
                             response = _a.sent();
-                            return [4 /*yield*/, checkBadResponse(response)];
+                            return [4 /*yield*/, this.checkBadResponse(response)];
                         case 2:
                             apiError = _a.sent();
                             if (apiError) {
@@ -383,7 +383,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            fullDomainName = getFullDomainName(opts.name, opts.useDefaultRoot);
+                            fullDomainName = this.getFullDomainName(opts.name, opts.useDefaultRoot);
                             url = API_ENDPOINT + "/domains/" + fullDomainName + "/rrsets/";
                             if (Array.isArray(opts.recordSet)) {
                                 recordSet = opts.recordSet;
@@ -396,7 +396,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                                     record.subname = '';
                                 }
                             });
-                            fetchOpts = getDefaultFetchOpts({
+                            fetchOpts = this.getDefaultFetchOpts({
                                 method: 'PATCH',
                                 authToken: this.getAuthToken(),
                                 contentType: 'application/json',
@@ -405,7 +405,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                             return [4 /*yield*/, this.fetchFn(url, fetchOpts)];
                         case 1:
                             response = _a.sent();
-                            return [4 /*yield*/, checkBadResponse(response)];
+                            return [4 /*yield*/, this.checkBadResponse(response)];
                         case 2:
                             apiError = _a.sent();
                             if (apiError) {
@@ -438,9 +438,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                                     record.subname = '';
                                 }
                             });
-                            fullDomainName = getFullDomainName(opts.name, opts.useDefaultRoot);
+                            fullDomainName = this.getFullDomainName(opts.name, opts.useDefaultRoot);
                             url = API_ENDPOINT + "/domains/" + fullDomainName + "/rrsets/";
-                            fetchOpts = getDefaultFetchOpts({
+                            fetchOpts = this.getDefaultFetchOpts({
                                 method: 'PATCH',
                                 authToken: this.getAuthToken(),
                                 contentType: 'application/json',
@@ -449,7 +449,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                             return [4 /*yield*/, this.fetchFn(url, fetchOpts)];
                         case 1:
                             response = _a.sent();
-                            return [4 /*yield*/, checkBadResponse(response)];
+                            return [4 /*yield*/, this.checkBadResponse(response)];
                         case 2:
                             apiError = _a.sent();
                             if (apiError) {
@@ -463,64 +463,64 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                 });
             });
         };
+        DesecAPI.prototype.getDefaultFetchOpts = function (opts) {
+            var paramHeaders = {};
+            if (opts.authToken) {
+                paramHeaders['Authorization'] = "Token " + opts.authToken;
+            }
+            if (opts.contentType) {
+                paramHeaders['Content-Type'] = opts.contentType;
+            }
+            var optsResult = {
+                method: opts.method,
+                mode: 'cors',
+                cache: 'no-cache',
+                redirect: 'follow',
+                referrer: 'no-referrer',
+                headers: Object.assign({
+                    'User-Agent': USER_AGENT
+                }, paramHeaders, opts.headers)
+            };
+            if (opts.body !== undefined && opts.body !== null) {
+                optsResult.body = opts.body;
+            }
+            return optsResult;
+        };
+        DesecAPI.prototype.checkBadResponse = function (response) {
+            return __awaiter(this, void 0, void 0, function () {
+                var responseString, _err_1;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            if (response.ok) {
+                                return [2 /*return*/, false];
+                            }
+                            _a.label = 1;
+                        case 1:
+                            _a.trys.push([1, 3, , 4]);
+                            return [4 /*yield*/, response.text()];
+                        case 2:
+                            responseString = _a.sent();
+                            return [3 /*break*/, 4];
+                        case 3:
+                            _err_1 = _a.sent();
+                            return [3 /*break*/, 4];
+                        case 4: return [2 /*return*/, new ApiError(response.status, response.statusText, responseString)];
+                    }
+                });
+            });
+        };
+        DesecAPI.prototype.getFullDomainName = function (name, useDefaultRoot) {
+            if (useDefaultRoot === void 0) { useDefaultRoot = true; }
+            if (useDefaultRoot && !name.endsWith("." + DEFAULT_ROOT_DOMAIN)) {
+                return name + "." + DEFAULT_ROOT_DOMAIN;
+            }
+            return name;
+        };
         return DesecAPI;
     }());
     exports.DesecAPI = DesecAPI;
     exports.default = DesecAPI;
-    function getDefaultFetchOpts(opts) {
-        var paramHeaders = {};
-        if (opts.authToken) {
-            paramHeaders['Authorization'] = "Token " + opts.authToken;
-        }
-        if (opts.contentType) {
-            paramHeaders['Content-Type'] = opts.contentType;
-        }
-        var optsResult = {
-            method: opts.method,
-            mode: 'cors',
-            cache: 'no-cache',
-            redirect: 'follow',
-            referrer: 'no-referrer',
-            headers: Object.assign({
-                'User-Agent': USER_AGENT
-            }, paramHeaders, opts.headers)
-        };
-        if (opts.body !== undefined && opts.body !== null) {
-            optsResult.body = opts.body;
-        }
-        return optsResult;
-    }
-    function checkBadResponse(response) {
-        return __awaiter(this, void 0, void 0, function () {
-            var responseString, _err_1;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (response.ok) {
-                            return [2 /*return*/, false];
-                        }
-                        _a.label = 1;
-                    case 1:
-                        _a.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, response.text()];
-                    case 2:
-                        responseString = _a.sent();
-                        return [3 /*break*/, 4];
-                    case 3:
-                        _err_1 = _a.sent();
-                        return [3 /*break*/, 4];
-                    case 4: return [2 /*return*/, new ApiError(response.status, response.statusText, responseString)];
-                }
-            });
-        });
-    }
-    function getFullDomainName(name, useDefaultRoot) {
-        if (useDefaultRoot === void 0) { useDefaultRoot = true; }
-        if (useDefaultRoot && !name.endsWith("." + DEFAULT_ROOT_DOMAIN)) {
-            return name + "." + DEFAULT_ROOT_DOMAIN;
-        }
-        return name;
-    }
     var ApiError = /** @class */ (function (_super) {
         __extends(ApiError, _super);
         function ApiError(httpStatus, httpStatusText, responseText) {

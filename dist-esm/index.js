@@ -27,12 +27,12 @@ export default class DesecAPI {
     }
     async getAccountInfo() {
         const url = `${API_ENDPOINT}/auth/me/`;
-        const fetchOpts = getDefaultFetchOpts({
+        const fetchOpts = this.getDefaultFetchOpts({
             method: 'GET',
             authToken: this.getAuthToken()
         });
         const response = await this.fetchFn(url, fetchOpts);
-        const apiError = await checkBadResponse(response);
+        const apiError = await this.checkBadResponse(response);
         if (apiError) {
             throw apiError;
         }
@@ -45,13 +45,13 @@ export default class DesecAPI {
             'email': opts.email,
             'password': opts.password
         };
-        const fetchOpts = getDefaultFetchOpts({
+        const fetchOpts = this.getDefaultFetchOpts({
             method: 'POST',
             contentType: 'application/json',
             body: JSON.stringify(data)
         });
         const response = await this.fetchFn(url, fetchOpts);
-        const apiError = await checkBadResponse(response);
+        const apiError = await this.checkBadResponse(response);
         if (apiError) {
             if (apiError.responseJson
                 && apiError.responseJson.email
@@ -70,13 +70,13 @@ export default class DesecAPI {
             'email': opts.email,
             'password': opts.password
         };
-        const fetchOpts = getDefaultFetchOpts({
+        const fetchOpts = this.getDefaultFetchOpts({
             method: 'POST',
             contentType: 'application/json',
             body: JSON.stringify(data)
         });
         const response = await this.fetchFn(url, fetchOpts);
-        const apiError = await checkBadResponse(response);
+        const apiError = await this.checkBadResponse(response);
         if (apiError) {
             throw apiError;
         }
@@ -87,31 +87,31 @@ export default class DesecAPI {
     /** Invalidate an auth token */
     async logout() {
         const url = `${API_ENDPOINT}/auth/token/logout/`;
-        const fetchOpts = getDefaultFetchOpts({
+        const fetchOpts = this.getDefaultFetchOpts({
             method: 'POST',
             authToken: this.getAuthToken()
         });
         const response = await this.fetchFn(url, fetchOpts);
-        const apiError = await checkBadResponse(response);
+        const apiError = await this.checkBadResponse(response);
         if (apiError) {
             throw apiError;
         }
         this.authToken = undefined;
     }
     async createDomain(opts) {
-        const fullDomainName = getFullDomainName(opts.name, opts.useDefaultRoot);
+        const fullDomainName = this.getFullDomainName(opts.name, opts.useDefaultRoot);
         const url = `${API_ENDPOINT}/domains/`;
         const data = {
             'name': fullDomainName
         };
-        const fetchOpts = getDefaultFetchOpts({
+        const fetchOpts = this.getDefaultFetchOpts({
             method: 'POST',
             authToken: this.getAuthToken(),
             contentType: 'application/json',
             body: JSON.stringify(data)
         });
         const response = await this.fetchFn(url, fetchOpts);
-        const apiError = await checkBadResponse(response);
+        const apiError = await this.checkBadResponse(response);
         if (apiError) {
             if (apiError.responseJson
                 && apiError.responseJson.code
@@ -131,12 +131,12 @@ export default class DesecAPI {
     }
     async listDomains() {
         const url = `${API_ENDPOINT}/domains/`;
-        const fetchOpts = getDefaultFetchOpts({
+        const fetchOpts = this.getDefaultFetchOpts({
             method: 'GET',
             authToken: this.getAuthToken()
         });
         const response = await this.fetchFn(url, fetchOpts);
-        const apiError = await checkBadResponse(response);
+        const apiError = await this.checkBadResponse(response);
         if (apiError) {
             throw apiError;
         }
@@ -144,14 +144,14 @@ export default class DesecAPI {
         return result;
     }
     async getDomainInfo(opts) {
-        const fullDomainName = getFullDomainName(opts.name, opts.useDefaultRoot);
+        const fullDomainName = this.getFullDomainName(opts.name, opts.useDefaultRoot);
         const url = `${API_ENDPOINT}/domains/${fullDomainName}/`;
-        const fetchOpts = getDefaultFetchOpts({
+        const fetchOpts = this.getDefaultFetchOpts({
             method: 'GET',
             authToken: this.getAuthToken()
         });
         const response = await this.fetchFn(url, fetchOpts);
-        const apiError = await checkBadResponse(response);
+        const apiError = await this.checkBadResponse(response);
         if (apiError) {
             throw apiError;
         }
@@ -159,17 +159,17 @@ export default class DesecAPI {
         return result;
     }
     async getDomainRecordSets(opts) {
-        const fullDomainName = getFullDomainName(opts.name, opts.useDefaultRoot);
+        const fullDomainName = this.getFullDomainName(opts.name, opts.useDefaultRoot);
         let url = `${API_ENDPOINT}/domains/${fullDomainName}/rrsets/`;
         if (opts.filterType !== undefined) {
             url += `?type=${opts.filterType}`;
         }
-        const fetchOpts = getDefaultFetchOpts({
+        const fetchOpts = this.getDefaultFetchOpts({
             method: 'GET',
             authToken: this.getAuthToken()
         });
         const response = await this.fetchFn(url, fetchOpts);
-        const apiError = await checkBadResponse(response);
+        const apiError = await this.checkBadResponse(response);
         if (apiError) {
             throw apiError;
         }
@@ -177,16 +177,16 @@ export default class DesecAPI {
         return result;
     }
     async createDomainRecordSet(opts) {
-        const fullDomainName = getFullDomainName(opts.name, opts.useDefaultRoot);
+        const fullDomainName = this.getFullDomainName(opts.name, opts.useDefaultRoot);
         const url = `${API_ENDPOINT}/domains/${fullDomainName}/rrsets/`;
-        const fetchOpts = getDefaultFetchOpts({
+        const fetchOpts = this.getDefaultFetchOpts({
             method: 'POST',
             authToken: this.getAuthToken(),
             contentType: 'application/json',
             body: JSON.stringify(opts.recordSet)
         });
         const response = await this.fetchFn(url, fetchOpts);
-        const apiError = await checkBadResponse(response);
+        const apiError = await this.checkBadResponse(response);
         if (apiError) {
             throw apiError;
         }
@@ -194,7 +194,7 @@ export default class DesecAPI {
         return result;
     }
     async updateDomainRecordSet(opts) {
-        const fullDomainName = getFullDomainName(opts.name, opts.useDefaultRoot);
+        const fullDomainName = this.getFullDomainName(opts.name, opts.useDefaultRoot);
         const url = `${API_ENDPOINT}/domains/${fullDomainName}/rrsets/`;
         let recordSet;
         if (Array.isArray(opts.recordSet)) {
@@ -208,14 +208,14 @@ export default class DesecAPI {
                 record.subname = '';
             }
         });
-        const fetchOpts = getDefaultFetchOpts({
+        const fetchOpts = this.getDefaultFetchOpts({
             method: 'PATCH',
             authToken: this.getAuthToken(),
             contentType: 'application/json',
             body: JSON.stringify(recordSet)
         });
         const response = await this.fetchFn(url, fetchOpts);
-        const apiError = await checkBadResponse(response);
+        const apiError = await this.checkBadResponse(response);
         if (apiError) {
             throw apiError;
         }
@@ -237,64 +237,64 @@ export default class DesecAPI {
                 record.subname = '';
             }
         });
-        const fullDomainName = getFullDomainName(opts.name, opts.useDefaultRoot);
+        const fullDomainName = this.getFullDomainName(opts.name, opts.useDefaultRoot);
         const url = `${API_ENDPOINT}/domains/${fullDomainName}/rrsets/`;
-        const fetchOpts = getDefaultFetchOpts({
+        const fetchOpts = this.getDefaultFetchOpts({
             method: 'PATCH',
             authToken: this.getAuthToken(),
             contentType: 'application/json',
             body: JSON.stringify(recordSet)
         });
         const response = await this.fetchFn(url, fetchOpts);
-        const apiError = await checkBadResponse(response);
+        const apiError = await this.checkBadResponse(response);
         if (apiError) {
             throw apiError;
         }
         const result = await response.json();
         return result;
     }
-}
-function getDefaultFetchOpts(opts) {
-    const paramHeaders = {};
-    if (opts.authToken) {
-        paramHeaders['Authorization'] = `Token ${opts.authToken}`;
+    getDefaultFetchOpts(opts) {
+        const paramHeaders = {};
+        if (opts.authToken) {
+            paramHeaders['Authorization'] = `Token ${opts.authToken}`;
+        }
+        if (opts.contentType) {
+            paramHeaders['Content-Type'] = opts.contentType;
+        }
+        const optsResult = {
+            method: opts.method,
+            mode: 'cors',
+            cache: 'no-cache',
+            redirect: 'follow',
+            referrer: 'no-referrer',
+            headers: Object.assign({
+                'User-Agent': USER_AGENT
+            }, paramHeaders, opts.headers)
+        };
+        if (opts.body !== undefined && opts.body !== null) {
+            optsResult.body = opts.body;
+        }
+        return optsResult;
     }
-    if (opts.contentType) {
-        paramHeaders['Content-Type'] = opts.contentType;
+    async checkBadResponse(response) {
+        if (response.ok) {
+            return false;
+        }
+        let responseString;
+        try {
+            responseString = await response.text();
+        }
+        catch (_err) {
+            // ignore
+        }
+        return new ApiError(response.status, response.statusText, responseString);
     }
-    const optsResult = {
-        method: opts.method,
-        mode: 'cors',
-        cache: 'no-cache',
-        redirect: 'follow',
-        referrer: 'no-referrer',
-        headers: Object.assign({
-            'User-Agent': USER_AGENT
-        }, paramHeaders, opts.headers)
-    };
-    if (opts.body !== undefined && opts.body !== null) {
-        optsResult.body = opts.body;
+    getFullDomainName(name, useDefaultRoot = true) {
+        if (useDefaultRoot && !name.endsWith(`.${DEFAULT_ROOT_DOMAIN}`)) {
+            return `${name}.${DEFAULT_ROOT_DOMAIN}`;
+        }
+        return name;
     }
-    return optsResult;
-}
-async function checkBadResponse(response) {
-    if (response.ok) {
-        return false;
-    }
-    let responseString;
-    try {
-        responseString = await response.text();
-    }
-    catch (_err) {
-        // ignore
-    }
-    return new ApiError(response.status, response.statusText, responseString);
-}
-function getFullDomainName(name, useDefaultRoot = true) {
-    if (useDefaultRoot && !name.endsWith(`.${DEFAULT_ROOT_DOMAIN}`)) {
-        return `${name}.${DEFAULT_ROOT_DOMAIN}`;
-    }
-    return name;
 }
 export { DesecAPI };
 export class ApiError extends Error {
