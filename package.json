@@ -1,6 +1,6 @@
 {
   "name": "desec",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A web + Node.js API client for the deSEC.io dynDNS service https://desec.readthedocs.io",
   "types": "./dist-types/index.d.ts",
   "main": "./dist-cjs/index.js",
@@ -49,6 +49,14 @@
   },
   "authors": [
     "Matthew Little <zone117x@gmail.com>"
+  ],
+  "files": [
+    "dist-cjs",
+    "dist-esm",
+    "dist-umd",
+    "dist-types",
+    "src",
+    "tsconfig.json"
   ],
   "nyc": {
     "cache": false,
