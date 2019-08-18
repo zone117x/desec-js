@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "umd",
+  },
+  "typedocOptions": {
+    "mode": "file",
+    "out": "docs",
+    "gitRevision": "master",
+    "readme": "none",
+    "theme": "markdown",
+    // "excludeProtected": true,
+    // "excludePrivate": true,
+    // "entryPoint": "DesecAPI",
+    // "namedAnchors": true,
+  }
+}

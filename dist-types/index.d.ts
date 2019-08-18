@@ -1,5 +1,5 @@
 export default class DesecAPI {
-    fetchFn: FetchType;
+    protected fetchFn: FetchType;
     authToken?: string;
     constructor(opts?: {
         authToken?: string;
@@ -46,9 +46,25 @@ export default class DesecAPI {
         name: string;
         useDefaultRoot?: boolean;
     }): Promise<void>;
+    protected getDefaultFetchOpts(opts: {
+        method: HttpMethod;
+        headers?: {
+            [key: string]: string;
+        };
+        authToken?: string;
+        contentType?: ValidContentType;
+        body?: string;
+    }): RequestInit;
+    protected checkBadResponse(response: Response): Promise<ApiError | false>;
+    protected getFullDomainName(name: string, useDefaultRoot?: boolean): string;
 }
 export { DesecAPI };
-export declare type RequestInit = {
+/** @ignore */
+declare type HttpMethod = 'POST' | 'GET' | 'DELETE' | 'PUT' | 'PATCH';
+/** @ignore */
+declare type ValidContentType = 'application/json';
+/** @ignore */
+declare type RequestInit = {
     body?: string | any;
     headers?: {
         [key: string]: any;
@@ -60,7 +76,8 @@ export declare type RequestInit = {
     redirect?: string | any;
     [key: string]: any;
 };
-export declare type Response = {
+/** @ignore */
+declare type Response = {
     json(): Promise<any>;
     text(): Promise<string>;
     status: number;
@@ -68,8 +85,9 @@ export declare type Response = {
     ok: boolean;
     [key: string]: any;
 };
-export declare type FetchType = (url: string, init?: RequestInit) => Promise<Response>;
-export interface AccountInfoResult {
+/** @ignore */
+declare type FetchType = (url: string, init?: RequestInit) => Promise<Response>;
+export declare type AccountInfoResult = {
     /**
      * Email address associated with the account. This address must be valid in
      * order to submit support requests to deSEC.
@@ -84,14 +102,14 @@ export interface AccountInfoResult {
      * Changes are not propagated in the DNS system.
      */
     locked: boolean;
-}
-export interface RegisterResult {
+};
+export declare type RegisterResult = {
     email: string;
-}
-export interface LoginResult {
+};
+export declare type LoginResult = {
     auth_token: string;
-}
-export interface CreateDomainResult {
+};
+export declare type CreateDomainResult = {
     /**
      * Timestamp of domain creation, in ISO 8601 format (e.g. 2013-01-29T12:34:56.000000Z).
      */
@@ -121,8 +139,8 @@ export interface CreateDomainResult {
      *  - and underscores _ (except at the beginning of the name). The maximum length is 191.
      */
     name: string;
-}
-export interface DomainResourceRecord {
+};
+export declare type DomainResourceRecord = {
     /**
      * Name of the zone to which the RRset belongs.
      * Note that the zone name does not follow immediately from the RRset name.
@@ -168,14 +186,11 @@ export interface DomainResourceRecord {
      * setting those records properly). You also cannot access the SOA, see SOA caveat.
      */
     type: string;
-}
-export interface CreateRecordSetOptions extends Pick<DomainResourceRecord, 'type' | 'records' | 'ttl'>, Partial<Pick<DomainResourceRecord, 'subname'>> {
-}
-export interface UpdateRecordSetOptions extends Pick<DomainResourceRecord, 'type'>, Partial<Pick<DomainResourceRecord, 'records' | 'ttl' | 'subname'>> {
-}
-export interface DeleteRecordSetOptions extends Pick<DomainResourceRecord, 'type'>, Partial<Pick<DomainResourceRecord, 'subname'>> {
-}
-export interface DomainInfoResult {
+};
+export declare type CreateRecordSetOptions = Pick<DomainResourceRecord, 'type' | 'records' | 'ttl'> & Partial<Pick<DomainResourceRecord, 'subname'>>;
+export declare type UpdateRecordSetOptions = Pick<DomainResourceRecord, 'type'> & Partial<Pick<DomainResourceRecord, 'records' | 'ttl' | 'subname'>>;
+export declare type DeleteRecordSetOptions = Pick<DomainResourceRecord, 'type'> & Partial<Pick<DomainResourceRecord, 'subname'>>;
+export declare type DomainInfoResult = {
     /**
      * Timestamp of domain creation, in ISO 8601 format (e.g. 2013-01-29T12:34:56.000000Z).
      */
@@ -212,9 +227,8 @@ export interface DomainInfoResult {
      * endpoint.
      */
     published: string;
-}
-export interface ListDomainsResult extends Array<DomainInfoResult> {
-}
+};
+export declare type ListDomainsResult = Array<DomainInfoResult>;
 export declare class ApiError extends Error {
     httpStatus: number;
     httpStatusText: string;

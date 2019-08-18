@@ -4,7 +4,7 @@ const DEFAULT_ROOT_DOMAIN = 'dedyn.io';
 
 export default class DesecAPI {
 
-  fetchFn: FetchType;
+  protected fetchFn: FetchType;
   authToken?: string;
 
   constructor(opts?: { authToken?: string; fetch?: FetchType; }) {
@@ -31,12 +31,12 @@ export default class DesecAPI {
 
   async getAccountInfo(): Promise<AccountInfoResult> {
     const url = `${API_ENDPOINT}/auth/me/`;
-    const fetchOpts = getDefaultFetchOpts({
+    const fetchOpts = this.getDefaultFetchOpts({
       method: 'GET',
       authToken: this.getAuthToken()
     });
     const response = await this.fetchFn(url, fetchOpts);
-    const apiError = await checkBadResponse(response);
+    const apiError = await this.checkBadResponse(response);
     if (apiError) {
       throw apiError;
     }
@@ -53,13 +53,13 @@ export default class DesecAPI {
       'email': opts.email,
       'password': opts.password
     };
-    const fetchOpts = getDefaultFetchOpts({
+    const fetchOpts = this.getDefaultFetchOpts({
       method: 'POST',
       contentType: 'application/json',
       body: JSON.stringify(data)
     });
     const response = await this.fetchFn(url, fetchOpts);
-    const apiError = await checkBadResponse(response);
+    const apiError = await this.checkBadResponse(response);
     if (apiError) {
       if (apiError.responseJson
         && apiError.responseJson.email
@@ -82,13 +82,13 @@ export default class DesecAPI {
       'email': opts.email,
       'password': opts.password
     };
-    const fetchOpts = getDefaultFetchOpts({
+    const fetchOpts = this.getDefaultFetchOpts({
       method: 'POST',
       contentType: 'application/json',
       body: JSON.stringify(data)
     });
     const response = await this.fetchFn(url, fetchOpts);
-    const apiError = await checkBadResponse(response);
+    const apiError = await this.checkBadResponse(response);
     if (apiError) {
       throw apiError;
     }
@@ -100,12 +100,12 @@ export default class DesecAPI {
   /** Invalidate an auth token */
   async logout(): Promise<void> {
     const url = `${API_ENDPOINT}/auth/token/logout/`;
-    const fetchOpts = getDefaultFetchOpts({
+    const fetchOpts = this.getDefaultFetchOpts({
       method: 'POST',
       authToken: this.getAuthToken()
     });
     const response = await this.fetchFn(url, fetchOpts);
-    const apiError = await checkBadResponse(response);
+    const apiError = await this.checkBadResponse(response);
     if (apiError) {
       throw apiError;
     }
@@ -116,19 +116,19 @@ export default class DesecAPI {
     name: string;
     useDefaultRoot?: boolean;
   }): Promise<CreateDomainResult> {
-    const fullDomainName = getFullDomainName(opts.name, opts.useDefaultRoot);
+    const fullDomainName = this.getFullDomainName(opts.name, opts.useDefaultRoot);
     const url = `${API_ENDPOINT}/domains/`;
     const data = {
       'name': fullDomainName
     };
-    const fetchOpts = getDefaultFetchOpts({
+    const fetchOpts = this.getDefaultFetchOpts({
       method: 'POST',
       authToken: this.getAuthToken(),
       contentType: 'application/json',
       body: JSON.stringify(data)
     });
     const response = await this.fetchFn(url, fetchOpts);
-    const apiError = await checkBadResponse(response);
+    const apiError = await this.checkBadResponse(response);
     if (apiError) {
       if (apiError.responseJson
         && apiError.responseJson.code
@@ -149,12 +149,12 @@ export default class DesecAPI {
   
   async listDomains(): Promise<ListDomainsResult> {
     const url = `${API_ENDPOINT}/domains/`;
-    const fetchOpts = getDefaultFetchOpts({
+    const fetchOpts = this.getDefaultFetchOpts({
       method: 'GET',
       authToken: this.getAuthToken()
     });
     const response = await this.fetchFn(url, fetchOpts);
-    const apiError = await checkBadResponse(response);
+    const apiError = await this.checkBadResponse(response);
     if (apiError) {
       throw apiError;
     }
@@ -166,14 +166,14 @@ export default class DesecAPI {
     name: string;
     useDefaultRoot?: boolean;
   }): Promise<DomainInfoResult> {
-    const fullDomainName = getFullDomainName(opts.name, opts.useDefaultRoot);
+    const fullDomainName = this.getFullDomainName(opts.name, opts.useDefaultRoot);
     const url = `${API_ENDPOINT}/domains/${fullDomainName}/`;
-    const fetchOpts = getDefaultFetchOpts({
+    const fetchOpts = this.getDefaultFetchOpts({
       method: 'GET',
       authToken: this.getAuthToken()
     });
     const response = await this.fetchFn(url, fetchOpts);
-    const apiError = await checkBadResponse(response);
+    const apiError = await this.checkBadResponse(response);
     if (apiError) {
       throw apiError;
     }
@@ -186,17 +186,17 @@ export default class DesecAPI {
     useDefaultRoot?: boolean;
     filterType?: string;
   }): Promise<DomainResourceRecord[]> {
-    const fullDomainName = getFullDomainName(opts.name, opts.useDefaultRoot);
+    const fullDomainName = this.getFullDomainName(opts.name, opts.useDefaultRoot);
     let url = `${API_ENDPOINT}/domains/${fullDomainName}/rrsets/`;
     if (opts.filterType !== undefined) {
       url += `?type=${opts.filterType}`;
     }
-    const fetchOpts = getDefaultFetchOpts({
+    const fetchOpts = this.getDefaultFetchOpts({
       method: 'GET',
       authToken: this.getAuthToken()
     });
     const response = await this.fetchFn(url, fetchOpts);
-    const apiError = await checkBadResponse(response);
+    const apiError = await this.checkBadResponse(response);
     if (apiError) {
       throw apiError;
     }
@@ -209,16 +209,16 @@ export default class DesecAPI {
     name: string;
     useDefaultRoot?: boolean;
   }): Promise<DomainResourceRecord | DomainResourceRecord[]> {
-    const fullDomainName = getFullDomainName(opts.name, opts.useDefaultRoot);
+    const fullDomainName = this.getFullDomainName(opts.name, opts.useDefaultRoot);
     const url = `${API_ENDPOINT}/domains/${fullDomainName}/rrsets/`;
-    const fetchOpts = getDefaultFetchOpts({
+    const fetchOpts = this.getDefaultFetchOpts({
       method: 'POST',
       authToken: this.getAuthToken(),
       contentType: 'application/json',
       body: JSON.stringify(opts.recordSet)
     });
     const response = await this.fetchFn(url, fetchOpts);
-    const apiError = await checkBadResponse(response);
+    const apiError = await this.checkBadResponse(response);
     if (apiError) {
       throw apiError;
     }
@@ -231,7 +231,7 @@ export default class DesecAPI {
     name: string;
     useDefaultRoot?: boolean;
   }): Promise<DomainResourceRecord[]> {
-    const fullDomainName = getFullDomainName(opts.name, opts.useDefaultRoot);
+    const fullDomainName = this.getFullDomainName(opts.name, opts.useDefaultRoot);
     const url = `${API_ENDPOINT}/domains/${fullDomainName}/rrsets/`;
     let recordSet: UpdateRecordSetOptions[];
     if (Array.isArray(opts.recordSet)) {
@@ -244,14 +244,14 @@ export default class DesecAPI {
         record.subname = '';
       }
     });
-    const fetchOpts = getDefaultFetchOpts({
+    const fetchOpts = this.getDefaultFetchOpts({
       method: 'PATCH',
       authToken: this.getAuthToken(),
       contentType: 'application/json',
       body: JSON.stringify(recordSet)
     });
     const response = await this.fetchFn(url, fetchOpts);
-    const apiError = await checkBadResponse(response);
+    const apiError = await this.checkBadResponse(response);
     if (apiError) {
       throw apiError;
     }
@@ -277,81 +277,84 @@ export default class DesecAPI {
         record.subname = '';
       }
     });
-    const fullDomainName = getFullDomainName(opts.name, opts.useDefaultRoot);
+    const fullDomainName = this.getFullDomainName(opts.name, opts.useDefaultRoot);
     const url = `${API_ENDPOINT}/domains/${fullDomainName}/rrsets/`;
-    const fetchOpts = getDefaultFetchOpts({
+    const fetchOpts = this.getDefaultFetchOpts({
       method: 'PATCH',
       authToken: this.getAuthToken(),
       contentType: 'application/json',
       body: JSON.stringify(recordSet)
     });
     const response = await this.fetchFn(url, fetchOpts);
-    const apiError = await checkBadResponse(response);
+    const apiError = await this.checkBadResponse(response);
     if (apiError) {
       throw apiError;
     }
     const result = await response.json();
     return result;
   }
-}
 
-function getDefaultFetchOpts(opts: {
-  method: HttpMethod;
-  headers?: { [key: string]: string; };
-  authToken?: string;
-  contentType?: ValidContentType;
-  body?: string;
-}): RequestInit {
-  const paramHeaders: { [key: string]: string; } = {};
-  if (opts.authToken) {
-    paramHeaders['Authorization'] = `Token ${opts.authToken}`;
+  protected getDefaultFetchOpts(opts: {
+    method: HttpMethod;
+    headers?: { [key: string]: string; };
+    authToken?: string;
+    contentType?: ValidContentType;
+    body?: string;
+  }): RequestInit {
+    const paramHeaders: { [key: string]: string; } = {};
+    if (opts.authToken) {
+      paramHeaders['Authorization'] = `Token ${opts.authToken}`;
+    }
+    if (opts.contentType) {
+      paramHeaders['Content-Type'] = opts.contentType;
+    }
+    const optsResult: RequestInit = {
+      method: opts.method,
+      mode: 'cors',
+      cache: 'no-cache',
+      redirect: 'follow',
+      referrer: 'no-referrer',
+      headers: Object.assign({
+        'User-Agent': USER_AGENT
+      }, paramHeaders, opts.headers)
+    };
+    if (opts.body !== undefined && opts.body !== null) {
+      optsResult.body = opts.body;
+    }
+    return optsResult;
   }
-  if (opts.contentType) {
-    paramHeaders['Content-Type'] = opts.contentType;
+  
+  protected async checkBadResponse(response: Response): Promise<ApiError | false> {
+    if (response.ok) {
+      return false;
+    }
+    let responseString: string | undefined;
+    try {
+      responseString = await response.text();
+    } catch (_err) {
+      // ignore
+    }
+    return new ApiError(response.status, response.statusText, responseString);
   }
-  const optsResult: RequestInit = {
-    method: opts.method,
-    mode: 'cors',
-    cache: 'no-cache',
-    redirect: 'follow',
-    referrer: 'no-referrer',
-    headers: Object.assign({
-      'User-Agent': USER_AGENT
-    }, paramHeaders, opts.headers)
-  };
-  if (opts.body !== undefined && opts.body !== null) {
-    optsResult.body = opts.body;
+  
+  protected getFullDomainName(name: string, useDefaultRoot = true): string {
+    if (useDefaultRoot && !name.endsWith(`.${DEFAULT_ROOT_DOMAIN}`)) {
+      return `${name}.${DEFAULT_ROOT_DOMAIN}`;
+    }
+    return name;
   }
-  return optsResult;
-}
-
-async function checkBadResponse(response: Response): Promise<ApiError | false> {
-  if (response.ok) {
-    return false;
-  }
-  let responseString: string | undefined;
-  try {
-    responseString = await response.text();
-  } catch (_err) {
-    // ignore
-  }
-  return new ApiError(response.status, response.statusText, responseString);
-}
-
-function getFullDomainName(name: string, useDefaultRoot = true): string {
-  if (useDefaultRoot && !name.endsWith(`.${DEFAULT_ROOT_DOMAIN}`)) {
-    return `${name}.${DEFAULT_ROOT_DOMAIN}`;
-  }
-  return name;
 }
 
 export { DesecAPI };
 
+/** @ignore */
 type HttpMethod = 'POST' | 'GET' | 'DELETE' | 'PUT' | 'PATCH';
+/** @ignore */
 type ValidContentType = 'application/json';
 
 // Use a minimal fetch type def rather then requiring a dependency on DOM types. 
-export type RequestInit = {
+/** @ignore */
+type RequestInit = {
   body?: string | any;
   headers?: { [key: string]: any; } | string[][];
   method?: string;
@@ -361,7 +364,8 @@ export type RequestInit = {
   redirect?: string | any;
   [key: string]: any;
 };
-export type Response = {
+/** @ignore */
+type Response = {
   json(): Promise<any>;
   text(): Promise<string>;
   status: number;
@@ -369,10 +373,11 @@ export type Response = {
   ok: boolean;
   [key: string]: any;
 };
-export type FetchType = (url: string, init?: RequestInit) => Promise<Response>;
+/** @ignore */
+type FetchType = (url: string, init?: RequestInit) => Promise<Response>;
 declare const fetch: FetchType;
 
-export interface AccountInfoResult {
+export type AccountInfoResult = {
   /** 
    * Email address associated with the account. This address must be valid in
    * order to submit support requests to deSEC.
@@ -387,17 +392,17 @@ export interface AccountInfoResult {
    * Changes are not propagated in the DNS system.
    */
   locked: boolean;
-}
+};
 
-export interface RegisterResult {
+export type RegisterResult = {
   email: string;
-}
+};
 
-export interface LoginResult {
+export type LoginResult = {
   auth_token: string;
-}
+};
 
-export interface CreateDomainResult {
+export type CreateDomainResult = {
   /**
    * Timestamp of domain creation, in ISO 8601 format (e.g. 2013-01-29T12:34:56.000000Z).
    */ 
@@ -427,9 +432,9 @@ export interface CreateDomainResult {
    *  - and underscores _ (except at the beginning of the name). The maximum length is 191.
    */
   name: string;
-}
+};
 
-export interface DomainResourceRecord {
+export type DomainResourceRecord = {
   /**
    * Name of the zone to which the RRset belongs. 
    * Note that the zone name does not follow immediately from the RRset name. 
@@ -475,21 +480,21 @@ export interface DomainResourceRecord {
    * setting those records properly). You also cannot access the SOA, see SOA caveat.
    */
   type: string;
-}
+};
 
-export interface CreateRecordSetOptions extends 
-  Pick<DomainResourceRecord, 'type' | 'records' | 'ttl'>, 
-  Partial<Pick<DomainResourceRecord, 'subname'>> { }
+export type CreateRecordSetOptions = 
+  Pick<DomainResourceRecord, 'type' | 'records' | 'ttl'> &
+  Partial<Pick<DomainResourceRecord, 'subname'>>;
 
-export interface UpdateRecordSetOptions extends 
-  Pick<DomainResourceRecord, 'type'>, 
-  Partial<Pick<DomainResourceRecord, 'records' | 'ttl' | 'subname'>> { }
+export type UpdateRecordSetOptions = 
+  Pick<DomainResourceRecord, 'type'> &
+  Partial<Pick<DomainResourceRecord, 'records' | 'ttl' | 'subname'>>;
 
-export interface DeleteRecordSetOptions extends 
-  Pick<DomainResourceRecord, 'type'>,
-  Partial<Pick<DomainResourceRecord, 'subname'>> { }
+export type DeleteRecordSetOptions = 
+  Pick<DomainResourceRecord, 'type'> &
+  Partial<Pick<DomainResourceRecord, 'subname'>>;
 
-export interface DomainInfoResult {
+export type DomainInfoResult = {
   /**
    * Timestamp of domain creation, in ISO 8601 format (e.g. 2013-01-29T12:34:56.000000Z).
    */ 
@@ -528,7 +533,7 @@ export interface DomainInfoResult {
   published: string;
 }
 
-export interface ListDomainsResult extends Array<DomainInfoResult> { }
+export type ListDomainsResult = Array<DomainInfoResult>;
 
 export class ApiError extends Error {
   httpStatus: number;

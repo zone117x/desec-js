@@ -21,9 +21,9 @@ describe('desec.io API tests', () => {
 
   it('registration - email already taken', async () => {
     const registerPromise = desecAPI.register({
-        email: TEST_ACCOUNT_EMAIL, 
-        password: TEST_ACCOUNT_PASSWORD
-      });
+      email: TEST_ACCOUNT_EMAIL, 
+      password: TEST_ACCOUNT_PASSWORD
+    });
     await assert.isRejected(registerPromise, desec.EmailAlreadyRegisteredError);
   });
 
